@@ -11,7 +11,7 @@ private static final Logger log = LoggerFactory.getLogger(M4Activity6.class);
      * Helper method to run a BankTestOperation and log exceptions.
      */
     public static void runTest(BankTestOperation operation, String operationName) {
-        log.info("=== Running {} ===", operationName);
+       
         try {
             operation.execute();
         } catch (InvalidAmountException e) {
@@ -21,10 +21,8 @@ private static final Logger log = LoggerFactory.getLogger(M4Activity6.class);
                 "InsufficientFundsException during {}: {} (requested ₱{}, balance ₱{})",
                 operationName, e.getMessage(), e.getRequestedAmount(), e.getBalance(), e
             );
-        } finally {
-            log.info("=== Completed {} ===\n", operationName);
+        } 
         }
-    }
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
