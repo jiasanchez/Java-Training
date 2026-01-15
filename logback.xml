@@ -1,32 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="true" scanPeriod="30 seconds">
 
-    <!-- Console pattern: short time -->
+    
+ <!-- Console pattern: short time -->
     <property name="CONSOLE_PATTERN" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"/>
 
     <!-- File pattern: full date -->
     <property name="FILE_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"/>
 
-    <!-- Console Appender -->
+    <!-- ===== Console Appender ===== -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>${CONSOLE_PATTERN}</pattern>
         </encoder>
     </appender>
 
-    <!-- File Appender -->
-    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <file>logs/application.log</file>
+    <!-- ===== Daily Rolling File Appender (NEW) ===== -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- Active (current) log file -->
+        <file>logs/bank-app.log</file>
         <append>true</append>
+
+        <!-- Rotate daily; archive file naming pattern -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- Daily archive file name -->
+            <fileNamePattern>logs/bank-app-%d{yyyy-MM-dd}.log</fileNamePattern>
+
+            <!-- Keep 30 days of history -->
+            <maxHistory>30</maxHistory>
+
+            <!-- Cap total archived size to 1GB -->
+            <totalSizeCap>1GB</totalSizeCap>
+        </rollingPolicy>
+
         <encoder>
             <pattern>${FILE_PATTERN}</pattern>
         </encoder>
+
+        <!-- Ensure timely writes (optional) -->
+        <immediateFlush>true</immediateFlush>
     </appender>
 
-    <!-- Root Logger -->
+    <!-- ===== Root Logger ===== -->
     <root level="INFO">
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="FILE"/>
     </root>
+
 
 </configuration>
